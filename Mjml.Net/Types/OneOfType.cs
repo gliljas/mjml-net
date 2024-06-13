@@ -11,7 +11,11 @@ public sealed class OneOfType : IType
         this.units = [..units];
     }
 
+#if NETSTANDARD2_0
+    public override bool Validate(string value, ref ValidationContext context)
+#else
     public bool Validate(string value, ref ValidationContext context)
+#endif
     {
         foreach (var unit in units)
         {

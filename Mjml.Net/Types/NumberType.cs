@@ -11,7 +11,11 @@ public sealed class NumberType : IType
         this.units = units;
     }
 
+#if NETSTANDARD2_0
+    public override bool Validate(string value, ref ValidationContext context)
+#else
     public bool Validate(string value, ref ValidationContext context)
+#endif
     {
         var trimmed = value.AsSpan().Trim();
 

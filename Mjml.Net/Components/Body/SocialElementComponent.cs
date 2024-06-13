@@ -225,7 +225,7 @@ public partial class SocialElementComponent : BodyComponentBase
 
         if (href != null && socialNetwork.ShareUrl != null)
         {
-            href = socialNetwork.ShareUrl.Replace("[[URL]]", href, StringComparison.Ordinal);
+            href = socialNetwork.ShareUrl.Replace("[[URL]]", href);
         }
 
         if (BackgroundColor != null)

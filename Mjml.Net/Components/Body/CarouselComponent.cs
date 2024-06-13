@@ -236,12 +236,12 @@ public partial class CarouselComponent : BodyComponentBase
 
         if (firstImage != null)
         {
-            renderer.Plain("<!--[if mso]>"); // I can't use StartConditional here as it's bugged.
+            renderer.Plain("<!--[if mso]>".AsSpan()); // I can't use StartConditional here as it's bugged.
             {
                 firstImage.BorderRadius = BorderRadius;
                 firstImage.Render(renderer, context);
             }
-            renderer.Plain("<![endif]-->"); // I can't use EndConditional here as it's bugged.
+            renderer.Plain("<![endif]-->".AsSpan()); // I can't use EndConditional here as it's bugged.
         }
     }
 

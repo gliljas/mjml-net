@@ -179,12 +179,12 @@ public class HtmlRenderTests
     [Fact]
     public void Should_render_elements_with_plain_text()
     {
-        sut.Plain("before");
+        sut.Plain("before".AsSpan());
         sut.StartElement("div");
-        sut.Plain("1");
-        sut.Plain("2");
+        sut.Plain("1".AsSpan());
+        sut.Plain("2".AsSpan());
         sut.EndElement("div");
-        sut.Plain("after");
+        sut.Plain("after".AsSpan());
 
         AssertHelpers.MultilineText(sut,
             "before",

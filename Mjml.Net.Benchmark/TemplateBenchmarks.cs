@@ -1,5 +1,6 @@
 ﻿using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Configs;
+using BenchmarkDotNet.Environments;
 using BenchmarkDotNet.Exporters;
 using BenchmarkDotNet.Jobs;
 
@@ -27,19 +28,22 @@ public class TemplateBenchmarks
             var baseJob = Job.ShortRun;
 
             AddJob(baseJob
-                .WithId("Dev").WithBaseline(true));
+                .WithId("Dev").WithBaseline(true).WithRuntime(CoreRuntime.Core80));
+
+            AddJob(baseJob
+               .WithId("DevNet472").WithRuntime(ClrRuntime.Net472));
 
             AddJob(baseJob.WithCustomBuildConfiguration("V1_24")
-                .WithId("1.24.0"));
+                .WithId("1.24.0").WithRuntime(CoreRuntime.Core80));
 
             AddJob(baseJob.WithCustomBuildConfiguration("V2_0")
-                .WithId("2.0.0"));
+                .WithId("2.0.0").WithRuntime(CoreRuntime.Core80));
 
             AddJob(baseJob.WithCustomBuildConfiguration("V2_1")
-                .WithId("2.1.0"));
+                .WithId("2.1.0").WithRuntime(CoreRuntime.Core80));
 
             AddJob(baseJob.WithCustomBuildConfiguration("V3_8")
-                .WithId("3.8.0"));
+                .WithId("3.8.0").WithRuntime(CoreRuntime.Core80));
 
             AddExporter(MarkdownExporter.GitHub);
         }

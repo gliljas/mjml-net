@@ -1,6 +1,9 @@
 ﻿using System.Globalization;
 using System.Runtime.CompilerServices;
 using System.Text;
+#if NET6_0_OR_GREATER
+using AppendInterpolatedStringHandler = System.Text.StringBuilder.AppendInterpolatedStringHandler;
+#endif
 
 namespace Mjml.Net;
 
@@ -30,13 +33,13 @@ public interface IHtmlStyleRenderer
 [InterpolatedStringHandler]
 public ref struct StyleInterpolatedStringHandler
 {
-    private StringBuilder.AppendInterpolatedStringHandler inner;
+    private AppendInterpolatedStringHandler inner;
 
     public StyleInterpolatedStringHandler(int literalLength, int formattedCount, IHtmlStyleRenderer writer, string name)
     {
         writer.StartStyle(name);
 
-        inner = new StringBuilder.AppendInterpolatedStringHandler(literalLength, formattedCount, writer.StringBuilder, CultureInfo.InvariantCulture);
+        inner = new AppendInterpolatedStringHandler(literalLength, formattedCount, writer.StringBuilder, CultureInfo.InvariantCulture);
     }
 
     public void AppendLiteral(string value)

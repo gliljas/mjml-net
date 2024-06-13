@@ -353,7 +353,7 @@ public partial class SectionComponent : BodyComponentBase
             }
             else
             {
-                vmlSize = string.Join(',', positions);
+                vmlSize = string.Join(",", positions);
             }
         }
 
@@ -536,7 +536,7 @@ public partial class SectionComponent : BodyComponentBase
                 break;
 
             default:
-                if (!backgroundPositionX.Contains('%', StringComparison.OrdinalIgnoreCase))
+                if (!backgroundPositionX.Contains("%", StringComparison.OrdinalIgnoreCase))
                 {
                     xPercent = "50%";
                 }
@@ -559,7 +559,7 @@ public partial class SectionComponent : BodyComponentBase
                 break;
 
             default:
-                if (!backgroundPositionY.Contains('%', StringComparison.OrdinalIgnoreCase))
+                if (!backgroundPositionY.Contains("%", StringComparison.OrdinalIgnoreCase))
                 {
                     xPercent = "0%";
                 }
@@ -574,7 +574,7 @@ public partial class SectionComponent : BodyComponentBase
     {
         var position = isXAxis ? positionX : positionY;
 
-        if (position.Contains('%', StringComparison.OrdinalIgnoreCase))
+        if (position.Contains("%", StringComparison.OrdinalIgnoreCase))
         {
             var positionUnit = UnitParser.Parse(position);
             var positionUnitDouble = positionUnit.Value / 100.0;

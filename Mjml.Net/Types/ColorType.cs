@@ -168,7 +168,12 @@ public sealed partial class ColorType : IType
 
         public int GetHashCode([DisallowNull] ReadOnlyMemory<char> obj)
         {
+#if NETSTANDARD2_0
+            return obj.Span.ToString().GetHashCode(StringComparison.OrdinalIgnoreCase);
+
+#else
             return string.GetHashCode(obj.Span, StringComparison.OrdinalIgnoreCase);
+#endif
         }
     }
 
@@ -191,7 +196,11 @@ public sealed partial class ColorType : IType
     private static readonly Regex Hex = new Regex(@"^#([0-9a-fA-F]{3}){1,2}?$", RegexOptions.Compiled | RegexOptions.ExplicitCapture);
 #endif
 
+#if NETSTANDARD2_0
+    public override bool Validate(string value, ref ValidationContext context)
+#else
     public bool Validate(string value, ref ValidationContext context)
+#endif
     {
 #if NET7_0_OR_GREATER
         var trimmed = value.AsMemory().Trim();
@@ -213,8 +222,11 @@ public sealed partial class ColorType : IType
         return Rgba.IsMatch(trimmed) || Rgb.IsMatch(trimmed) || Hex.IsMatch(trimmed);
 #endif
     }
-
+#if NETSTANDARD2_0
+    public override string Coerce(string value)
+#else
     public string Coerce(string value)
+#endif
     {
         var trimmed = value.AsSpan().Trim();
 

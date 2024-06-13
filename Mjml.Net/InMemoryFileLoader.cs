@@ -21,10 +21,19 @@ public sealed class InMemoryFileLoader : IFileLoader
     /// <inheritdoc />
     public string? LoadText(string path)
     {
-        ArgumentNullException.ThrowIfNull(path);
-
+        if (path is null)
+        {
+            throw new ArgumentNullException(nameof(path));
+        }
+#if NETSTANDARD2_0
+        string parentPath = default;
+        if (pathStack.Count > 0)
+        {
+            parentPath = pathStack.Peek();
+        }
+#else
         pathStack.TryPeek(out var parentPath);
-
+#endif
         path = BuildPath(path, parentPath);
 
         pathStack.Push(path);

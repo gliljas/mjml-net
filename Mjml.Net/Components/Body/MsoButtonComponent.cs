@@ -43,7 +43,7 @@ public partial class MsoButtonComponent : ButtonComponent
 
         if (stroked)
         {
-            var border = Border.Split(" ");
+            var border = Border.Split(' ');
 
             borderWeight = border.Length > 0 ? border[0] : borderWeight;
             borderStyle = border.Length > 1 ? AdaptBorderStyle(border[1]) : borderStyle;

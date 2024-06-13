@@ -179,7 +179,7 @@ public sealed partial class MjmlRenderContext : IHtmlRenderer, IHtmlAttrRenderer
             return;
         }
 
-        var hasMultipleFonts = value.Contains(',', StringComparison.OrdinalIgnoreCase);
+        var hasMultipleFonts = value.Contains(",", StringComparison.OrdinalIgnoreCase);
 
         if (hasMultipleFonts)
         {

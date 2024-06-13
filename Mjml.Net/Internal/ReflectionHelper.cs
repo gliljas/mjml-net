@@ -19,6 +19,9 @@ internal static class ReflectionHelper
         return Expression.Lambda<Func<T1, T2, TReturn>>(constructorExpression, parameters).Compile();
     }
 
+#if NETSTANDARD2_0
+    // Could use Expression building, but this method is unused
+#else
     public static Func<object, TReturn> CreateILDelegate<TReturn>(this MethodInfo methodInfo)
     {
         var parameterTypes = new Type[]
@@ -36,4 +39,5 @@ internal static class ReflectionHelper
 
         return (Func<object, TReturn>)method.CreateDelegate(typeof(Func<object, TReturn>));
     }
+#endif
 }

@@ -65,7 +65,7 @@ public static class UnitParser
 
         if (hasSeparator)
         {
-            double.TryParse(valueSpan, NumberStyles.Any, CultureInfo.InvariantCulture, out var temp);
+            double.TryParse(valueSpan.ToString(), NumberStyles.Any, CultureInfo.InvariantCulture, out var temp);
 
             if (unitType == Unit.Pixels)
             {
@@ -76,7 +76,7 @@ public static class UnitParser
         }
         else
         {
-            int.TryParse(valueSpan, NumberStyles.Any, CultureInfo.InvariantCulture, out var temp);
+            int.TryParse(valueSpan.ToString(), NumberStyles.Any, CultureInfo.InvariantCulture, out var temp);
 
             return (temp, unitType);
         }

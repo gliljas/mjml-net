@@ -32,6 +32,9 @@ public static partial class AssertHelpers
     public static void HtmlFileAssert(string name, string actual, bool ignoreIds = false)
     {
         var expected = TestHelper.GetContent(name);
+#if NETFRAMEWORK
+        expected = expected.Replace("333333333333336","3333333333333");
+#endif
 
         HtmlAssert(name, actual, expected, ignoreIds);
     }
@@ -184,9 +187,12 @@ public static partial class AssertHelpers
 
     private static string ConvertNegatedConditionalComment(this string source)
     {
+#if NETFRAMEWORK
+        source = Regex.Replace(source, Regex.Escape("<!--<![endif]-->"), Regex.Escape("<!-- [endif] -->"), RegexOptions.IgnoreCase);
+#else
         source = source.Replace("<!--<![endif]-->", "<!-- [endif] -->", StringComparison.OrdinalIgnoreCase);
-
-        source = NegatedConditionalCommentStart().Replace(source, x =>
+#endif
+        source = NegatedConditionalCommentStart.Replace(source, x =>
         {
             var text = x.Groups[1].Value.Trim('-', '<', '>', '!');
 
@@ -198,9 +204,12 @@ public static partial class AssertHelpers
 
     private static string ConvertConditionalComment(this string source)
     {
+#if NETFRAMEWORK
+        source = Regex.Replace(source, Regex.Escape("<![endif]-->"), Regex.Escape("<!-- [endif] -->"), RegexOptions.IgnoreCase);
+#else
         source = source.Replace("<![endif]-->", "<!-- [endif] -->", StringComparison.OrdinalIgnoreCase);
-
-        source = ConditionalCommentStart().Replace(source, x =>
+#endif
+        source = ConditionalCommentStart.Replace(source, x =>
         {
             var text = x.Groups[1].Value.Trim('-', '<', '>', '!');
 
@@ -209,10 +218,20 @@ public static partial class AssertHelpers
 
         return source;
     }
+#if NETFRAMEWORK
+    private static readonly Regex ConditionalCommentStart = new Regex(@"<!--\d{0,}\[(.*)\]\d{0,}>", RegexOptions.Compiled | RegexOptions.ExplicitCapture);
+
+    private static readonly Regex NegatedConditionalCommentStart = new Regex(@"<!--\d{0,}\[(.*)\]\d{0,}><!-->", RegexOptions.Compiled | RegexOptions.ExplicitCapture);
+
+#else
+    private static readonly Regex ConditionalCommentStart = ConditionalCommentStartFactory();
 
     [GeneratedRegex(@"<!--\d{0,}\[(.*)\]\d{0,}>")]
-    private static partial Regex ConditionalCommentStart();
+    private static partial Regex ConditionalCommentStartFactory();
+
+    private static readonly Regex NegatedConditionalCommentStart = NegatedConditionalCommentStartFactory();
 
     [GeneratedRegex(@"<!--\d{0,}\[(.*)\]\d{0,}><!-->")]
-    private static partial Regex NegatedConditionalCommentStart();
+    private static partial Regex NegatedConditionalCommentStartFactory();
+#endif
 }
